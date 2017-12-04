@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Protractor - wprowadzenie</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <style media="screen" type="text/css">
+
+        .reveal h1 { text-transform: none; }
+        .reveal h2 { text-transform: none; }
+        .reveal h3 { text-transform: none; }
+        .reveal h4 { text-transform: none; }
+        .reveal h5 { text-transform: none; }
+        .reveal h6 { text-transform: none; }
+
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section data-markdown>
+	        <textarea data-template>
+		        # Protractor
+                ### Jarek Pawlak
+                #### jarek.pawlak@zielony-blekit.org
+	        </textarea>
+        </section>
+
+        <section data-markdown>
+	        <textarea data-template>
+		        ## O mnie
+                * software artist, Java, Javascript
+                * 25 lat doświadczenia w programowaniu
+                * hobby – góry, żagle, joga
+	        </textarea>
+        </section>
+
+        <section data-markdown>
+	        <textarea data-template>
+		        ## Agenda
+                * testowanie - rzut oka poza xUnit
+                * Protractor - wprowadzenie
+                * ElementFinders, Locators, Actions
+                * jak to działa?
+                * Promises
+                * ...
+	        </textarea>
+        </section>
+
+        <section data-markdown>
+	        <textarea data-template>
+		        ## Testowanie
+                ![testing-pyramid](resources/testing-pyramid.jpg) <!-- .element height="50%" width="50%" -->
+	        </textarea>
+        </section>
+
+        <section>
+            <h2>End-to-End testing</h2>
+            <ul>
+                <li class="fragment">Selenium</li>
+                <li class="fragment">Web-Driver API</li>
+                <li class="fragment">Protractor</li>
+            </ul>
+            <p class="fragment">
+                <img src="resources/protractor-selenium.jpg">
+            </p>
+        </section>
+
+        <section>
+            <h2>Protractor - Instalacja</h2>
+            (Wymaga node.js)
+
+            <pre><code data-trim class="bash">
+                npm install -g protractor
+
+                webdriver-manager update
+            </code></pre>
+
+        </section>
+
+
+        <section>
+            <h2>Plik konfiguracyjny</h2>
+            <pre><code data-trim class="js">
+                // conf.js
+                exports.config = {
+                    seleniumAddress: 'http://localhost:4444/wd/hub',
+                    specs: ['example-spec.js']
+                };
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Jasmine - przypomnienie</h2>
+                <pre><code data-trim class="js">
+                    describe(..., function() {
+                        it(..., function() {
+                            // some actions
+                            expect(...).toEqual(...);
+                        });
+                    });
+                </code></pre>
+        </section>
+
+        <section>
+            <h2>Protractor</h2>
+            <h3>przykładowy test</h3>
+            <pre><code data-trim class="js">
+                describe('First protractor test', function() {
+                    it('Super Calculator should have a title', function() {
+                        browser.get('http://juliemr.github.io/.../');
+
+                        expect(browser.getTitle()).toEqual('Super Calculator');
+                    });
+                });
+            </code></pre>
+        </section>
+
+        <section data-markdown="">
+                <textarea data-template>
+                    ## Demo
+                    let's start!
+
+                </textarea>
+        </section>
+
+        <section>
+            <h2>Uruchomienie</h2>
+            <pre><code data-trim class="js">
+                // calc-spec.js
+                describe('First protractor test', function() {
+                    it('Super Calculator should have a title', function() {
+                        browser.get('http://juliemr.github.io/protractor-demo/');
+
+                        expect(browser.getTitle()).toEqual('Super Calculator');
+                    });
+                });
+            </code></pre>
+            <pre><code data-trim class="js">
+                // conf.js
+                exports.config = {
+                    seleniumAddress: 'http://localhost:4444/wd/hub',
+                    specs: ['calc-spec.js']
+                };
+            </code></pre>
+            <pre><code data-trim class="bash">
+                webdriver-manager start
+
+                protractor conf.js
+            </code></pre>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template data-noescape>
+                ## Zadanie 0.
+                * <div>
+                    <p>Napisz i uruchom swój pierwszy test :)</p>
+                    <p>- sprawdź czy strona<br/> http://juliemr.github.io/protractor-demo/ <br/> ma tytuł "Super Calculator"</p>
+                </div>
+            </textarea>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template>
+                ## Pytania?
+            </textarea>
+        </section>
+
+        <section>
+            <h2>Struktura testu</h2>
+            <pre><code data-trim >
+                elementFinder = element( Locator )
+
+                elementFinder.Action()
+
+                expect( ElementFinder ) ...
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Locators</h2>
+            <pre><code data-trim class="js">
+                // Find an element using an id
+                by.id('someId')
+
+                // Find an element using a class name
+                by.className('green')
+
+                // Find an element using a tag name
+                by.tagName('a')
+
+                // Find an element using a css selector.
+                by.css('.green')
+
+                // Find element using angular model
+                by.model('x')
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>ElementFinders</h2>
+            <pre><code data-trim class="js">
+                element(by.id('someId'))
+            </code></pre>
+
+            <div class="fragment">
+            <h2>Actions</h2>
+            <pre><code data-trim class="js">
+                var el = element(by.id('someId'))
+
+                // for buttons, links, etc.
+                el.click()
+
+                // for text inputs
+                el.sendKeys('abc')
+
+                // for text and other inputs
+                el.getAttribute('value')
+
+                // for text nodes
+                el.getText()
+            </code></pre>
+            </div>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template data-noescape>
+                ## Zadanie 1.
+                ### Przetestuj kalkulator <br/>
+                (http://juliemr.github.io/protractor-demo/)  <!-- .element: style="font-size: 0.65em"-->
+
+                1. znajdź element przechowujący wynik i sprawdź czy początkowo ma wartość 0 <!-- .element: style="font-size: 0.65em"-->
+                    * (użyj locatora by.tagName)
+                1. wykonaj działanie 2+2 i sprawdź poprawność wyniku  <!-- .element: style="font-size: 0.65em"-->
+                    * znajdź elementy first i second i wpisz do nich (uzywajac el.sendKeys) odpowiednie wartości
+                    * znajdź przycisk "gobutton" i naciśnij go (click)
+                    * odczytaj i sprawdź wynik
+            </textarea>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template>
+                ## Pytania?
+            </textarea>
+        </section>
+
+        <section>
+            <h2>ElementFinders</h2>
+            <h3>wiele elementow</h3>
+            <pre><code data-trim class="js">
+                element.all(by.tagName('input'))
+            </code></pre>
+
+            <div class="fragment">
+                <h3>Actions</h3>
+                <pre><code data-trim class="js">
+                    var els = element.all(by.tagName('input'))
+
+                    // count
+                    els.count()
+
+                    // first and last
+                    els.first()
+                    els.last()
+
+                    // get by index
+                    els.get(0)
+                </code></pre>
+            </div>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template data-noescape>
+                ## Zadanie 2.
+                ### Przetestuj kalkulator c.d.
+                1. wykonaj działanie 2+2 i sprawdź poprawność wyniku  <!-- .element: style="font-size: 0.65em"-->
+                    * znajdując elementy first i second _nie uzywaj_ locatora by.model
+                    * (uzyj element.all(...))
+            </textarea>
+        </section>
+
+        <section>
+            <h2>ElementFinders</h2>
+            <h3>sub-elementy</h3>
+            <pre><code data-trim class="js">
+                element(by.id('someId')).element(by.tagName('button'))
+
+                element(by.id('someId')).all(by.tagName('button'))
+            </code></pre>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template data-noescape>
+                ## Zadanie 3.
+                ### Przetestuj mini-aplikację Todo ze strony https://angularjs.org/
+                1. dodaj pozycję na listę  <!-- .element: style="font-size: 0.65em"-->
+                1. sprawdź, czy zwiększył się licznik pozycji ("1 of 2 remaining")  <!-- .element: style="font-size: 0.65em"-->
+                1. zaznacz pozycję jako zrobioną (i rownież sprawdź czy zmienił sie poprawnie licznik)   <!-- .element: style="font-size: 0.65em"-->
+                1. wywołaj akcję "archive", a następnie sprawdź stan listy oraz licznika  <!-- .element: style="font-size: 0.65em"-->
+            </textarea>
+        </section>
+
+        <section data-markdown="">
+            <textarea data-template>
+                ## Pytania?
+            </textarea>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				history: true
+			});
+
+
+</script>
+</body>
+</html>

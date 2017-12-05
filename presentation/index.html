@@ -311,10 +311,27 @@
                 ## Zadanie 3.
                 ### Przetestuj mini-aplikację Todo ze strony https://angularjs.org/
                 1. dodaj pozycję na listę  <!-- .element: style="font-size: 0.65em"-->
-                1. sprawdź, czy zwiększył się licznik pozycji ("1 of 2 remaining")  <!-- .element: style="font-size: 0.65em"-->
+                1. sprawdź, czy zwiększył się licznik pozycji ("2 of 3 remaining")  <!-- .element: style="font-size: 0.65em"-->
                 1. zaznacz pozycję jako zrobioną (i rownież sprawdź czy zmienił sie poprawnie licznik)   <!-- .element: style="font-size: 0.65em"-->
-                1. wywołaj akcję "archive", a następnie sprawdź stan listy oraz licznika  <!-- .element: style="font-size: 0.65em"-->
+                1. wywołaj akcję "archive", a następnie sprawdź licznika (oraz opcjonalnie listy)  <!-- .element: style="font-size: 0.65em"-->
+
+                
+                #### Wskazówki
+                * root element: var rootEl = element(by.css('div.well[module="todoApp"]')) <!-- .element: style="font-size: 0.6em"-->
+                * pozostałe elementy powinny byc teraz unikalne względem rootEl <!-- .element: style="font-size: 0.6em"-->
+                * locator licznika: rootElement.element(by.cssContainingText('span', 'remaining')) <!-- .element: style="font-size: 0.6em"-->
             </textarea>
+        </section>
+
+        <section>
+            <h2>Element Explorer</h2>
+            <pre><code data-trim class="bash">
+                protractor conf.js --elementExplorer
+            </code></pre>
+
+            <br/>
+            <h4>Wskazówka:</h4>
+            <span style="font-size: 0.7em;">użyj ElementExplorera do szybkiego prototypowania testów</span>
         </section>
 
         <section data-markdown="">

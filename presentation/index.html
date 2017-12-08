@@ -325,6 +325,7 @@
 
         <section>
             <h2>Element Explorer</h2>
+            <h4><u>uwaga:</u> nie działa na nodejs 8.x</h4>
             <pre><code data-trim class="bash">
                 protractor conf.js --elementExplorer
             </code></pre>
@@ -348,6 +349,22 @@
                 * ..ale przykrywają ten fakt
                 * -> Promises
             </textarea>
+        </section>
+
+        <section>
+            <h2>Promises</h2>
+            <p>Promise - "obietnica" wyniku</p>
+            <pre><code data-trim class="js">
+                var el = element(by.tagName('h2'))
+
+                var promise = el.getText()
+
+                promise.then(function(text) {
+                    console.log(text);
+                    expect(text.startsWith(...)).toBe(true)
+                });
+
+            </code></pre>
         </section>
 
         <section data-markdown="">
